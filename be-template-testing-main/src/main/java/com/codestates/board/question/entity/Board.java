@@ -1,4 +1,4 @@
-package com.codestates.board.entity;
+package com.codestates.board.question.entity;
 
 import com.codestates.audit.Auditable;
 import com.codestates.member.entity.Member;
@@ -22,6 +22,9 @@ public class Board extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardId;
 
+    @Column(nullable = false, updatable = false, unique = true)
+    private String email;
+
     @Column(nullable = false)
     private String title;
 
@@ -30,20 +33,12 @@ public class Board extends Auditable {
 
 
     @Enumerated(value = EnumType.STRING)
-    @Column(length = 20, nullable = false)
-    private Board.BoardStatus boardStatus = BoardStatus.QUESTION_REGISTRATION;
+    @Column(name = "STATUS")
+    private BoardStatus boardStatus = BoardStatus.QUESTION_REGISTRATION;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(length = 20, nullable = false)
-    private Board.BoardScope boardScope = BoardScope.PUBLIC;
-
-    //Todo:: 바꿀 예정!!
-    @OneToMany(mappedBy = "member")
-    private List<Order> orders = new ArrayList<>();
-
-    // 수정된 부분
-    @OneToOne(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private Stamp stamp;
+    @Column(name = "SCOPE")
+    private BoardScope boardScope = BoardScope.PUBLIC;
 
 
     public enum BoardStatus {
@@ -58,6 +53,8 @@ public class Board extends Auditable {
             this.status = status;
         }
     }
+
+
 
     public enum BoardScope {
         PUBLIC("공개글"),

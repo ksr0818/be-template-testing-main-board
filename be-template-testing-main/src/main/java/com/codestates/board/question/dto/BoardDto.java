@@ -1,21 +1,35 @@
-package com.codestates.board.dto;
+package com.codestates.board.question.dto;
 
-import com.codestates.board.entity.Board;
-import com.codestates.member.entity.Member;
-import com.codestates.order.dto.OrderCoffeeDto;
+import com.codestates.board.question.entity.Board;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import java.util.List;
 
 
 public class BoardDto {
     @Getter
     public static class Post {
+
+        @NotBlank
+        @Email
+        private String email;
+
+        @NotBlank
+        private String title;
+
+        @NotBlank
+        private String content;
+
+    }
+
+    @Getter
+    @Setter
+    public static class Patch {
+
+        private long boardId;
 
         @NotBlank
         @Email
@@ -33,8 +47,11 @@ public class BoardDto {
 
     }
 
+    @AllArgsConstructor
     @Getter
-    public static class Patch {
+    public static class Response {
+
+        private long boardId;
 
         @NotBlank
         @Email
