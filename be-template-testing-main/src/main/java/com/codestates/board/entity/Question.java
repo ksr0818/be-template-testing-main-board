@@ -1,23 +1,18 @@
-package com.codestates.board.question.entity;
+package com.codestates.board.entity;
 
 import com.codestates.audit.Auditable;
-import com.codestates.member.entity.Member;
-import com.codestates.order.entity.Order;
-import com.codestates.stamp.Stamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-public class Board extends Auditable {
+public class Question extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardId;

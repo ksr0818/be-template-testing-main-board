@@ -1,9 +1,9 @@
-package com.codestates.board.question.controller;
+package com.codestates.board.controller;
 
-import com.codestates.board.question.dto.BoardDto;
-import com.codestates.board.question.entity.Board;
-import com.codestates.board.question.mapper.BoardMapper;
-import com.codestates.board.question.service.BoardService;
+import com.codestates.board.dto.QuestionDto;
+import com.codestates.board.entity.Question;
+import com.codestates.board.mapper.QuestionMapper;
+import com.codestates.board.service.QuestionService;
 import com.codestates.dto.MultiResponseDto;
 import com.codestates.dto.SingleResponseDto;
 import com.codestates.utils.UriCreator;
@@ -25,18 +25,18 @@ import java.util.List;
 @RequiredArgsConstructor
 @Validated
 @Slf4j
-public class BoardController {
+public class QuestionController {
     private final static String BOARD_DEFAULT_URL = "/v11/boards";
-    private final BoardService boardService;
-    private final BoardMapper mapper;
+    private final QuestionService questionService;
+    private final QuestionMapper mapper;
 
 
     @PostMapping
-    public ResponseEntity postBoard(@Valid @RequestBody BoardDto.Post requestBody) {
-        Board board = mapper.boardPostToBoard(requestBody);
+    public ResponseEntity postBoard(@Valid @RequestBody QuestionDto.Post requestBody) {
+        Question question = mapper.boardPostToBoard(requestBody);
 
-        Board createdBoard = boardService.createBoard(board);
-        URI location = UriCreator.createUri(BOARD_DEFAULT_URL, createdBoard.getBoardId());
+        Question createdQuestion = questionService.createBoard(question);
+        URI location = UriCreator.createUri(BOARD_DEFAULT_URL, createdQuestion.getBoardId());
 
         return ResponseEntity.created(location).build();
     }
@@ -44,33 +44,33 @@ public class BoardController {
     @PatchMapping("/{board-id}")
     public ResponseEntity patchBoard(
             @PathVariable("board-id") @Positive long boardId,
-            @Valid @RequestBody BoardDto.Patch requestBody) {
+            @Valid @RequestBody QuestionDto.Patch requestBody) {
         requestBody.setBoardId(boardId);
 
-        Board board =
-                boardService.updateBoard(mapper.boardPatchToBoard(requestBody));
+        Question question =
+                questionService.updateBoard(mapper.boardPatchToBoard(requestBody));
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.boardToBoardResponse(board)),
+                new SingleResponseDto<>(mapper.boardToBoardResponse(question)),
                 HttpStatus.OK);
     }
 //
     @GetMapping("/{board-id}")
     public ResponseEntity getBoard(
             @PathVariable("board-id") @Positive long boardId) {
-        Board board = boardService.findBoard(boardId);
+        Question question = questionService.findBoard(boardId);
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.boardToBoardResponse(board))
+                new SingleResponseDto<>(mapper.boardToBoardResponse(question))
                 , HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity getBoards(@Positive @RequestParam int page,
                                      @Positive @RequestParam int size) {
-        Page<Board> pageBoards = boardService.findBoards(page - 1, size);
-        List<Board> boards = pageBoards.getContent();
+        Page<Question> pageBoards = questionService.findBoards(page - 1, size);
+        List<Question> questions = pageBoards.getContent();
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.boardsToBoardResponses(boards),
+                new MultiResponseDto<>(mapper.boardsToBoardResponses(questions),
                         pageBoards),
                 HttpStatus.OK);
     }
@@ -78,7 +78,7 @@ public class BoardController {
     @DeleteMapping("/{board-id}")
     public ResponseEntity deleteBoard(
             @PathVariable("board-id") @Positive long boardId){
-        boardService.deleteBoard(boardId);
+        questionService.deleteBoard(boardId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

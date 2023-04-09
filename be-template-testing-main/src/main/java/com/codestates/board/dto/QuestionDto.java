@@ -1,6 +1,6 @@
-package com.codestates.board.question.dto;
+package com.codestates.board.dto;
 
-import com.codestates.board.question.entity.Board;
+import com.codestates.board.entity.Question;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 
-public class BoardDto {
+public class QuestionDto {
     @Getter
     public static class Post {
 
@@ -41,9 +41,9 @@ public class BoardDto {
         @NotBlank
         private String content;
 
-        private Board.BoardStatus boardStatus;
+        private Question.BoardStatus boardStatus;
 
-        private Board.BoardScope boardScope;
+        private Question.BoardScope boardScope;
 
     }
 
@@ -63,9 +63,9 @@ public class BoardDto {
         @NotBlank
         private String content;
 
-        private Board.BoardStatus boardStatus;
+        private Question.BoardStatus boardStatus;
 
-        private Board.BoardScope boardScope;
+        private Question.BoardScope boardScope;
 
     }
 
